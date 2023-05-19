@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_list/screens/studentsList.dart';
+import 'package:student_list/studentDetails.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,6 @@ class MyApp extends StatelessWidget {
 }
 
 class studentList extends StatefulWidget {
-  const studentList({Key? key}) : super(key: key);
 
   @override
   State<studentList> createState() => _studentListState();
@@ -31,15 +31,22 @@ class _studentListState extends State<studentList> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text('Student Details'),
+        title: const Text('Student Details'),
         centerTitle: true,
       ),
-      body: Center(child: Text('StudentsList'),),
+      body: Container(
+        width: 400,
+        height: 100,
+        padding: EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () {
           Navigator.push(context, 
-            MaterialPageRoute(builder: (context)=>AddStudents())
+            MaterialPageRoute(builder: (context)=> AddStudents())
           );
         },
         child: Icon(Icons.add),

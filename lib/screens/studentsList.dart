@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:student_list/database.dart';
 
 class AddStudents extends StatefulWidget {
-  const AddStudents({Key? key}) : super(key: key);
 
   @override
   State<AddStudents> createState() => _AddStudentsState();
@@ -13,12 +13,14 @@ class _AddStudentsState extends State<AddStudents> {
   final _userDobController = TextEditingController();
   final _userEmailController = TextEditingController();
   final _userMobileController = TextEditingController();
-  final bool _validateName = false;
-  final bool _validateID = false;
-  final bool _validateDOB = false;
-  final bool _validateEmail = false;
-  final bool _validateMobile = false;
+
+  MyDb mydb = MyDb();
+
   @override
+  void initState() {
+    mydb.open();
+    super.initState();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Add Students',),),
@@ -28,7 +30,7 @@ class _AddStudentsState extends State<AddStudents> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children:  [
-              const Text(
+               Text(
                   'Students Details',
                 style: TextStyle(
                     fontSize: 20,
@@ -102,13 +104,16 @@ class _AddStudentsState extends State<AddStudents> {
                     textStyle: TextStyle(fontSize: 15),
                   ),
                     onPressed: () {
-                      _userNameController.text = '';
-                      _userIDController.text = '';
-                      _userDobController.text = '';
-                      _userEmailController.text = '';
-                      _userMobileController.text = '';
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
+                      return AddStudents();
+                    }));
+                      // _userNameController.text = '';
+                      // _userIDController.text = '';
+                      // _userDobController.text = '';
+                      // _userEmailController.text = '';
+                      // _userMobileController.text = '';
                     },
-                    child: Text('Edit'),
+                    child: Text('Add details'),
                 ),
               ],),
             ],
