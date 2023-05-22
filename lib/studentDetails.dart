@@ -14,21 +14,23 @@ class StudentDetails{
     required this.dob,
     required this.email,
     required this.mobile});
-  factory StudentDetails.fromMap(Map<String, dynamic>data) {
-    return StudentDetails(
-      id: 1,
-      name: 'edf',
-      dob: '23/07/2002',
-      email: 'abc@gmail.com',
-      mobile: '2345464',
-    );
-  }
 
-  Map<String, dynamic> toMap() => {
-    'id': id,
-    'name': name,
-    'dob': dob,
-    'email': email,
-    'mobile': mobile,
-  };
+   StudentDetails.fromMap(Map<String, dynamic>res) :
+      id = res['id'],
+      name = res['email'],
+      dob = res['dob'],
+      email = res['email'],
+      mobile = res['mobile'];
+
+
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'dob': dob,
+      'email': email,
+      'mobile': mobile,
+    };
+  }
 }

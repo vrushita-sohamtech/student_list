@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_list/screens/studentsList.dart';
-import 'package:student_list/studentDetails.dart';
+import 'package:student_list/studentsList.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,7 +44,7 @@ class _studentListState extends State<studentList> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () {
-          Navigator.push(context, 
+          Navigator.push(context,
             MaterialPageRoute(builder: (context)=> AddStudents())
           );
         },
