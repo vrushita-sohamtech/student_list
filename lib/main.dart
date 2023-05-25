@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_list/studentDetails.dart';
 import 'package:student_list/studentsList.dart';
 
 void main() {
@@ -24,6 +25,14 @@ class studentList extends StatefulWidget {
 }
 
 class _studentListState extends State<studentList> {
+
+  List<StudentDetails> addStudents = [
+    StudentDetails(id: id, name: 'name', dob: 'dob', email: 'email', mobile: 'mobile'),
+    StudentDetails(id: id, name: 'name', dob: 'dob', email: 'email', mobile: 'mobile'),
+    StudentDetails(id: id, name: 'name', dob: 'dob', email: 'email', mobile: 'mobile'),
+  ];
+
+  static get id => 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

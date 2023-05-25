@@ -1,6 +1,4 @@
 
-
-
 class StudentDetails{
   late final int id;
   late final String name;

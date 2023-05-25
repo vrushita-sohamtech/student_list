@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_list/database.dart';
+import 'package:student_list/main.dart';
 import 'package:student_list/studentDetails.dart';
 
 class AddStudents extends StatefulWidget {
@@ -11,6 +12,8 @@ class AddStudents extends StatefulWidget {
 class _AddStudentsState extends State<AddStudents> {
 
   late DbHelper dbHelper;
+  late Future<List<StudentDetails>> StudentList;
+
 
   final _userNameController = TextEditingController();
   final _userIDController = TextEditingController();
@@ -24,6 +27,7 @@ class _AddStudentsState extends State<AddStudents> {
     super.initState();
     dbHelper = DbHelper();
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text('Add Students',),),
@@ -33,7 +37,7 @@ class _AddStudentsState extends State<AddStudents> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children:  [
-                Text(
+                const Text(
                   'Students Details',
                   style: TextStyle(
                     fontSize: 20,
