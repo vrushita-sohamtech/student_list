@@ -11,7 +11,8 @@ class StudentDetails{
     required this.name,
     required this.dob,
     required this.email,
-    required this.mobile});
+    required this.mobile,
+  });
 
    StudentDetails.fromMap(Map<String, dynamic>res) :
       id = res['id'],

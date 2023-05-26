@@ -11,7 +11,7 @@ class AddStudents extends StatefulWidget {
 
 class _AddStudentsState extends State<AddStudents> {
 
-  late DbHelper dbHelper;
+
   late Future<List<StudentDetails>> StudentList;
 
 
@@ -23,11 +23,6 @@ class _AddStudentsState extends State<AddStudents> {
 
 
   @override
-  void initState() {
-    super.initState();
-    dbHelper = DbHelper();
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text('Add Students',),),
@@ -111,21 +106,8 @@ class _AddStudentsState extends State<AddStudents> {
                       textStyle: TextStyle(fontSize: 15),
                     ),
                     onPressed: () {
-                      dbHelper.insert(
-                        StudentDetails(
-                            id: 1,
-                            name: 'riva',
-                            dob: '23/08/2003',
-                            email: 'riva@gmail.com',
-                            mobile: '34767482',
-                        ),
-                      );
+                      AddStudents();
                       Navigator.pop(context);
-                      // _userNameController.text = '';
-                      // _userIDController.text = '';
-                      // _userDobController.text = '';
-                      // _userEmailController.text = '';
-                      // _userMobileController.text = '';
                     },
                     child: Text('Add details'),
                   ),
