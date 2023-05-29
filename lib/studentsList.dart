@@ -21,6 +21,7 @@ class _AddStudentsState extends State<AddStudents> {
   final _userEmailController = TextEditingController();
   final _userMobileController = TextEditingController();
 
+ SqlDb sqlDb = SqlDb();
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +106,7 @@ class _AddStudentsState extends State<AddStudents> {
                       backgroundColor: Colors.teal,
                       textStyle: TextStyle(fontSize: 15),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       AddStudents();
                       Navigator.pop(context);
                     },
