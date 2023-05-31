@@ -21,7 +21,7 @@ class _AddStudentsState extends State<AddStudents> {
   final _userEmailController = TextEditingController();
   final _userMobileController = TextEditingController();
 
- SqlDb sqlDb = SqlDb();
+ DatabaseHelper databaseHelper = DatabaseHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class _AddStudentsState extends State<AddStudents> {
                     labelText: 'Mobile',
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Row(children: [
