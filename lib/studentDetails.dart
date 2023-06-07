@@ -21,8 +21,6 @@ class StudentDetails{
       email = res['email'],
       mobile = res['mobile'];
 
-
-
   Map<String, dynamic> toMap() {
     return {
       'id': id,

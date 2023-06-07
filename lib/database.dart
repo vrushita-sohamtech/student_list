@@ -2,118 +2,45 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-
-// class SqlDb {
-//
-//   static Database? _db;
-//
-//   Future<Database?> get db async{
-//     if(_db == null) {
-//       _db = await initialDb();
-//       return _db;
-//     }else {
-//       return _db;
-//     }
-//   }
-//
-//   initialDb() async{
-//     String databasePath = await getDatabasesPath();
-//     String path = join(databasePath, 'StudentDetails.db');
-//     Database myDb = await openDatabase(path, onCreate: _onCreate, version: 1);
-//     return myDb;
-//   }
-//   _onCreate(Database db, int version)async {
-//     await db.execute('''CREATE TABLE "students"(
-//     id PRIMARY KEY,
-//     name TEXT,
-//     dob TEXT,
-//     email TEXT,
-//     mobile TEXT
-//     )
-//     ''');
-//     print('Create DATABASE AND TABLE =========================');
-//   }
-//
-//   Future<int> insertData(String sql) async{
-//     Database? mydb = await db;
-//     int rep = await mydb!.rawInsert(sql);
-//     return rep;
-//   }
-//
-//
-//   Future<int> updateData(String sql) async{
-//     Database? mydb = await db;
-//     int response = await mydb!.rawUpdate(sql);
-//     return response;
-//   }
-//
-//   Future<int> deleteData(String sql) async {
-//     Database? mydb = await db;
-//     int response = await mydb!.rawDelete(sql);
-//     return response;
-//   }
-//  }
-
-
-
 class DatabaseHelper {
-  static const _databaseName = 'StudentDetails.db';
-  static const table = 'my_table';
-  static const databaseVersion = 1;
-  static const columnId = '_id';
-  static const columnName = '_name';
-  static const columnDob = '_dob';
-  static const columnEmail = '_email';
-  static const columnMobile = '_mobile';
+  static Future<Database> db() async{
+    return openDatabase(
+        'Student.db',
+        version: 1,
+        onCreate: (database, version) {
+      createTable(database);
+    });
 
-  late Database db;
-
-  Future<void> init() async{
-    final documentDirectory = await getApplicationSupportDirectory();
-    final path = join(documentDirectory.path, _databaseName);
-    db = await openDatabase(
-      path,
-      version: databaseVersion,
-      onCreate: _onCreate,
-    );
   }
 
-  Future _onCreate(Database db, int version) async{
-    await db.execute('''
-        CREATE TABLE $table(
-          $columnId INTEGER PRIMARY KEY,
-          $columnName TEXT NOT NULL,
-          $columnDob TEXT NOT NULL,
-          $columnEmail TEXT NOT NULL,
-          $columnMobile TEXT NOT NULL,
+ static Future<void> createTable(database) async{
+    await database.execute("""
+        CREATE TABLE table(
+         Id INTEGER PRIMARY KEY,
+         Name TEXT,
+         Dob TEXT,
+         Email TEXT,
+         Mobile INTEGER,
         )
-    ''');
+        """);
   }
 
-  Future<int> insert (Map<String, dynamic>row) async{
-    return await db.insert(table,row);
-  }
-
-  Future<List<Map<String, dynamic>>> queryAllRow() async{
-    return await db.query(table);
-  }
-
-  Future<int> update(Map<String, dynamic>row) async{
-    int id = row[columnId];
-    return await db.update(
-      table,
-      row,
-      where: '$columnId = ?',
-      whereArgs: [id],
+  Future<void> insert({required int id, required String name, required int dob, required String email, required int mobile}) async {
+    final db = await DatabaseHelper.db();
+    final data = {'id': id, 'name': name, 'dob': dob, 'email': email, 'mobile': mobile};
+    db.insert('table', data, conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<int> delete(Map<String, dynamic>row) async {
-    int id = row[columnId];
-    return await db.delete(
-      table,
-      where: '$columnId = ?',
-      whereArgs: [id],
+  static Future<List<Map<String, dynamic>>> getData() async{
+    final db= await DatabaseHelper.db();
+    return db.query('StudentDetails');
+  }
+
+  Future<dynamic> update({required int id, required String name, required int dob, required String email, required int mobile}) async{
+    final db = await DatabaseHelper.db();
+    final data = {'id': id, 'name': name, 'dob': dob, 'email': email, 'mobile': mobile};
+    db.update('table', data, where: 'Id = ?', whereArgs: [id],
     );
   }
 }
