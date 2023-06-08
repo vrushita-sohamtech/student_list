@@ -25,7 +25,13 @@ class DatabaseHelper {
         """);
   }
 
-  Future<void> insert({required int id, required String name, required int dob, required String email, required int mobile}) async {
+  Future<void> insert({
+    required int id,
+    required String name,
+    required int dob,
+    required String email,
+    required int mobile,
+  }) async {
     final db = await DatabaseHelper.db();
     final data = {'id': id, 'name': name, 'dob': dob, 'email': email, 'mobile': mobile};
     db.insert('table', data, conflictAlgorithm: ConflictAlgorithm.replace,
@@ -37,7 +43,13 @@ class DatabaseHelper {
     return db.query('StudentDetails');
   }
 
-  Future<dynamic> update({required int id, required String name, required int dob, required String email, required int mobile}) async{
+  Future<dynamic> update({
+    required int id,
+    required String name,
+    required int dob,
+    required String email,
+    required int mobile,
+  }) async{
     final db = await DatabaseHelper.db();
     final data = {'id': id, 'name': name, 'dob': dob, 'email': email, 'mobile': mobile};
     db.update('table', data, where: 'Id = ?', whereArgs: [id],
