@@ -1,6 +1,7 @@
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:student_list/studentDetails.dart';
 
 class DatabaseHelper {
   static Future<Database> db() async{
@@ -25,7 +26,7 @@ class DatabaseHelper {
         """);
   }
 
-  Future<void> insert({
+  Future<dynamic> insert({
     required int id,
     required String name,
     required int dob,

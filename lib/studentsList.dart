@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:student_list/database.dart';
 import 'package:student_list/main.dart';
 import 'package:student_list/studentDetails.dart';
@@ -108,7 +109,7 @@ class _AddStudentsState extends State<AddStudents> {
                       textStyle: const TextStyle(fontSize: 15),
                     ),
                     onPressed: () {
-                      AddStudents();
+                      AddDetails();
                       Navigator.pop(context);
                     },
                     child: const Text('Add details'),
@@ -120,4 +121,14 @@ class _AddStudentsState extends State<AddStudents> {
         )
     );
   }
+}
+
+
+class AddDetails {
+  late final int id;
+  late final String name;
+  late final String dob;
+  late final String email;
+  late final String mobile;
+  final columns = ['id', 'name', 'dob', 'email', 'mobile'];
 }
