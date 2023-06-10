@@ -11,7 +11,6 @@ class DatabaseHelper {
         onCreate: (database, version) {
       createTable(database);
     });
-
   }
 
  static Future<void> createTable(database) async{

@@ -13,11 +13,11 @@ class AddStudents extends StatefulWidget {
 class _AddStudentsState extends State<AddStudents> {
   // late Future<List<StudentDetails>> studentList;
 
-   TextEditingController name = TextEditingController();
-   TextEditingController iD = TextEditingController();
-   TextEditingController dob= TextEditingController();
-   TextEditingController email = TextEditingController();
-   TextEditingController mobile = TextEditingController();
+   TextEditingController nameController = TextEditingController();
+   TextEditingController idController = TextEditingController();
+   TextEditingController dobController= TextEditingController();
+   TextEditingController emailController = TextEditingController();
+   TextEditingController mobileController = TextEditingController();
 
  DatabaseHelper databaseHelper = DatabaseHelper();
 
@@ -47,7 +47,7 @@ class _AddStudentsState extends State<AddStudents> {
                   height: 20.0,
                 ),
                 TextField(
-                  controller: name,
+                  controller: nameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Enter Name',
@@ -58,7 +58,7 @@ class _AddStudentsState extends State<AddStudents> {
                   height: 20.0,
                 ),
                 TextField(
-                  controller: iD,
+                  controller: idController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Enter ID',
@@ -69,7 +69,7 @@ class _AddStudentsState extends State<AddStudents> {
                   height: 20.0,
                 ),
                 TextField(
-                  controller: dob,
+                  controller: dobController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Enter Date of Birth',
@@ -80,7 +80,7 @@ class _AddStudentsState extends State<AddStudents> {
                   height: 20.0,
                 ),
                 TextField(
-                  controller: email,
+                  controller: emailController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Enter Email',
@@ -91,7 +91,7 @@ class _AddStudentsState extends State<AddStudents> {
                   height: 20.0,
                 ),
                 TextField(
-                  controller: mobile,
+                  controller: mobileController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Enter Mobile',
@@ -105,7 +105,7 @@ class _AddStudentsState extends State<AddStudents> {
                   TextButton(
                     style: TextButton.styleFrom(
                       primary: Colors.white,
-                      backgroundColor: Colors.teal,
+                      backgroundColor: Colors.blueAccent,
                       textStyle: const TextStyle(fontSize: 15),
                     ),
                     onPressed: () {
@@ -123,12 +123,10 @@ class _AddStudentsState extends State<AddStudents> {
   }
 }
 
-
 class AddDetails {
-  late final int id;
-  late final String name;
-  late final String dob;
-  late final String email;
-  late final String mobile;
-  final columns = ['id', 'name', 'dob', 'email', 'mobile'];
+  TextEditingController name = TextEditingController();
+  TextEditingController iD = TextEditingController();
+  TextEditingController dob= TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController mobile = TextEditingController();
 }
