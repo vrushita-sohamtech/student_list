@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:student_list/database.dart';
 import 'package:student_list/main.dart';
 import 'package:student_list/studentDetails.dart';
@@ -11,7 +10,6 @@ class AddStudents extends StatefulWidget {
 }
 
 class _AddStudentsState extends State<AddStudents> {
-  // late Future<List<StudentDetails>> studentList;
 
    TextEditingController nameController = TextEditingController();
    TextEditingController idController = TextEditingController();
@@ -111,6 +109,7 @@ class _AddStudentsState extends State<AddStudents> {
                     onPressed: () {
                       AddDetails();
                       Navigator.pop(context);
+                      print('AddDetails');
                     },
                     child: const Text('Add details'),
                   ),

@@ -1,7 +1,6 @@
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:student_list/studentDetails.dart';
 
 class DatabaseHelper {
   static Future<Database> db() async{
@@ -9,11 +8,11 @@ class DatabaseHelper {
         'Student.db',
         version: 1,
         onCreate: (database, version) {
-      createTable(database);
+      // createTable(database);
     });
   }
 
- static Future<void> createTable(database) async{
+ static Future<void> createTable(database, String text) async{
     await database.execute("""
         CREATE TABLE table(
          Id INTEGER PRIMARY KEY,
@@ -54,5 +53,6 @@ class DatabaseHelper {
     final data = {'id': id, 'name': name, 'dob': dob, 'email': email, 'mobile': mobile};
     db.update('table', data, where: 'Id = ?', whereArgs: [id],
     );
+    return data;
   }
 }

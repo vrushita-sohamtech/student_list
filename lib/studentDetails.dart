@@ -14,12 +14,12 @@ class StudentDetails{
     required this.mobile,
   });
 
-   StudentDetails.fromMap(Map<String, dynamic>res) :
-      id = res['id'],
-      name = res['email'],
-      dob = res['dob'],
-      email = res['email'],
-      mobile = res['mobile'];
+   StudentDetails.fromMap(Map<String, dynamic>map) :
+      id = map['id'],
+      name = map['email'],
+      dob = map['dob'],
+      email = map['email'],
+      mobile = map['mobile'];
 
   Map<String, dynamic> toMap() {
     return {
