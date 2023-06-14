@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -24,7 +25,7 @@ class DatabaseHelper {
         """);
   }
 
-  Future<dynamic> insert({
+  Future<dynamic> insert(String text, {
     required int id,
     required String name,
     required int dob,
@@ -42,7 +43,7 @@ class DatabaseHelper {
     return db.query('StudentDetails');
   }
 
-  Future<dynamic> update({
+  Future<dynamic> update(String text, {
     required int id,
     required String name,
     required int dob,
@@ -50,9 +51,18 @@ class DatabaseHelper {
     required int mobile,
   }) async{
     final db = await DatabaseHelper.db();
-    final data = {'id': id, 'name': name, 'dob': dob, 'email': email, 'mobile': mobile};
+    final data = {'id': id, 'name': name, 'dob': dob, 'email': email, 'mobile': mobile.toString()};
     db.update('table', data, where: 'Id = ?', whereArgs: [id],
     );
     return data;
+  }
+
+  static Future<void> deleteItem(int id) async{
+    final db = await DatabaseHelper.db();
+    try{
+      await db.delete('Items', where: 'id = ?', whereArgs: [id]);
+    }catch(err) {
+      debugPrint('Student is not available: $err');
+    }
   }
 }

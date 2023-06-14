@@ -11,15 +11,43 @@ class AddStudents extends StatefulWidget {
 
 class _AddStudentsState extends State<AddStudents> {
 
-   TextEditingController nameController = TextEditingController();
-   TextEditingController idController = TextEditingController();
-   TextEditingController dobController= TextEditingController();
-   TextEditingController emailController = TextEditingController();
-   TextEditingController mobileController = TextEditingController();
+  List<Map<String, dynamic>> myData = [];
+  bool _isLoading = true;
 
- DatabaseHelper databaseHelper = DatabaseHelper();
+  void refreshData() async{
+    final data = await DatabaseHelper.getData();
+    setState(() {
+      myData = data;
+      _isLoading = false;
+    });
+  }
+
+
 
   @override
+  void initState() {
+    super.initState();
+    refreshData();
+  }
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController idController = TextEditingController();
+  TextEditingController dobController= TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
+
+  void showMyForm(int?id) async{
+    if(id!= null){
+      final existingData = myData.firstWhere((element) => element['id']==id);
+      idController.text = existingData['id'];
+      nameController.text = existingData['name'];
+      dobController.text = existingData['dob'];
+      emailController.text = existingData['email'];
+      mobileController.text = existingData['mobile'];
+    }
+  }
+
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -129,3 +157,5 @@ class AddDetails {
   TextEditingController email = TextEditingController();
   TextEditingController mobile = TextEditingController();
 }
+
+
