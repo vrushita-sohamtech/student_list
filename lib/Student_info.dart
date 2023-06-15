@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:student_list/detail.dart';
 import 'package:student_list/studentDetails.dart';
 import 'database.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -27,23 +27,40 @@ class _HomePageState extends State<HomePage> {
     _refreshData();
   }
 
-  TextEditingController idController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController dobController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController mobileController = TextEditingController();
+  final TextEditingController idController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
 
+  Future<void> insert() async {
+    await DatabaseHelper.insert(
+        idController.text,
+        nameController.text,
+        dobController.text,
+        emailController.text,
+        mobileController.text);
+    _refreshData();
+  }
 
+  Future<dynamic> updateItem() async {
+    await DatabaseHelper.update(
+      idController.text,
+      nameController.text,
+      dobController.text,
+      emailController.text,
+      mobileController.text,);
+    _refreshData();
+  }
   void showMyForm(int? id) async {
     if (id != null) {
-
       final existingData =
       myData.firstWhere((element) => element['id'] == id);
-      idController.text = existingData['id'];
+      idController.text = existingData['id'].toString();
       nameController.text = existingData['name'];
       dobController.text = existingData['dob'];
       emailController.text = existingData['email'];
-      mobileController.text = existingData['mobile'];
+      mobileController.text = existingData['mobile'].toString();
     }
 
     showModalBottomSheet(
@@ -116,104 +133,79 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 20,
               ),
-              // ElevatedButton(
-              //   onPressed: () async {
-              //     // Save new data
-              //     if (id == null) {
-              //       await addItem();
-              //     }
-              //
-              //     if (id != null) {
-              //       await updateItem(id);
-              //     }
-              //
-              //     idController.text = '';
-              //     nameController.text = '';
-              //     dobController.text = '';
-              //     emailController.text = '';
-              //     mobileController.text = '';
-              //
-              //     Navigator.of(context).pop();
-              //   },
-              //   child: Text(id == null ? 'Create New' : 'Update'),
-              // )
+              ElevatedButton(
+                onPressed: () async {
+                  insert();
+                    await updateItem();
+                  idController.text = '';
+                  nameController.text = '';
+                  dobController.text = '';
+                  emailController.text = '';
+                  mobileController.text = '';
+
+                  Navigator.pop(context);
+                },
+                child: Text(id == null ? 'Create New' : 'Update'),
+              )
             ],
           ),
         ));
   }
 
-  // Future<dynamic> insert() async {
-  //   await DatabaseHelper.insert(
-  //       idController.text,
-  //       nameController.text,
-  //       dobController.text,
-  //       emailController.text,
-  //       mobileController.text);
-  //   _refreshData();
-  // }
-  //
-  // Future<dynamic> updateItem(int id) async {
-  //   await DatabaseHelper.update(
-  //     idController.text,
-  //     nameController.text,
-  //     dobController.text,
-  //     emailController.text,
-  //     mobileController.text,);
-  //   _refreshData();
-  // }
-  //
-  // void deleteItem(int id) async {
-  //   await DatabaseHelper.deleteItem(id);
-  //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //       content: Text('Successfully deleted!'),
-  //       backgroundColor:Colors.green
-  //   ));
-  //   _refreshData();
-  // }
+
+  void deleteItem(int id) async {
+     DatabaseHelper.deleteItem(id);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Successfully deleted!'),
+        backgroundColor:Colors.grey
+    ));
+    _refreshData();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sqlite CRUD'),
-      ),
-      body: _isLoading
-          ? const Center(
-           child: CircularProgressIndicator(),
-      )
-          : myData.isEmpty?const Center(child:  Text("No Data Available!!!")):  ListView.builder(
+      body: ListView.builder(
             itemCount: myData.length,
-            itemBuilder: (context, index) => Card(
-          color:index%2==0?Colors.green: Colors.green[200],
+            itemBuilder: (context, index) =>
+                Dismissible(
+                  key: UniqueKey(),
+                  background: const Icon(Icons.edit),
+                  secondaryBackground: const Icon(Icons.delete),
+                  confirmDismiss: (direction) async{
+                    if(direction == DismissDirection.startToEnd){
+                      showMyForm(myData[index]['id']);
+                    }else{
+                      if(direction == DismissDirection.endToStart){
+                        deleteItem(myData[index]['id']);
+                      }
+                    }
+                  },
+                  child: Card(
+          color:index%2==0?Colors.grey: Colors.grey[400],
           margin: const EdgeInsets.all(15),
             child:ListTile(
-              title: Text(myData[index]['id'].toString(), style: TextStyle(fontSize: 20),),
-              subtitle: Text('Name:' +myData[index]['name'] +
-                  ', Dob:' + myData[index]['dob'] +
-                  ', email:' +myData[index]['email'] +
-                  ', mobile:' +myData[index]['mobile'].toString()),
-              textColor: Colors.white,
-              trailing: SizedBox(
-                width: 100,
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () => showMyForm(myData[index]['id']),
-                    ),
-                    // IconButton(
-                    //   icon: const Icon(Icons.delete),
-                    //   onPressed: () =>
-                    //       deleteItem(myData[index]['id']),
-                    // ),
-                  ],
-                ),
-              )),
+              title: Text(myData[index]['id'].toString(),
+                style: const TextStyle(fontSize: 20),),
+              subtitle: Text('Name:' +myData[index]['name']),
+              textColor: Colors.black,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => detail(student: StudentDetails(
+                        id: myData[index]['id'],
+                        name:myData[index]['name'],
+                        dob: myData[index]['dob'],
+                        email: myData[index]['email'],
+                        mobile: myData[index]['mobile'].toString()),)));
+              },
+            ),
         ),
+                ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
+        backgroundColor: Colors.black,
         onPressed: () => showMyForm(null),
+        child: const Icon(Icons.add),
       ),
     );
   }

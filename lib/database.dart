@@ -1,68 +1,47 @@
-import 'package:flutter/cupertino.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
 class DatabaseHelper {
+
   static Future<Database> db() async{
     return openDatabase(
-        'Student.db',
+        'flutter.db',
         version: 1,
         onCreate: (database, version) {
-      // createTable(database);
-    });
+      createTable(database);
+    },
+    );
   }
 
- static Future<void> createTable(database, String text) async{
-    await database.execute("""
-        CREATE TABLE table(
-         Id INTEGER PRIMARY KEY,
-         Name TEXT,
-         Dob TEXT,
-         Email TEXT,
-         Mobile INTEGER,
+ static Future<void> createTable(database) async{
+      database.execute("""CREATE TABLE Student(
+         id INTEGER PRIMARY KEY,
+         name TEXT,
+         dob TEXT,
+         email TEXT,
+         mobile INTEGER
         )
         """);
   }
 
-  Future<dynamic> insert(String text, {
-    required int id,
-    required String name,
-    required int dob,
-    required String email,
-    required int mobile,
-  }) async {
+   static Future<void> insert(id,name,dob, email, mobile) async {
     final db = await DatabaseHelper.db();
     final data = {'id': id, 'name': name, 'dob': dob, 'email': email, 'mobile': mobile};
-    db.insert('table', data, conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    db.insert('Student', data, conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   static Future<List<Map<String, dynamic>>> getData() async{
     final db= await DatabaseHelper.db();
-    return db.query('StudentDetails');
+    return db.query('Student');
   }
 
-  Future<dynamic> update(String text, {
-    required int id,
-    required String name,
-    required int dob,
-    required String email,
-    required int mobile,
-  }) async{
+  static Future<void> update(id, name, dob, email, mobile) async{
     final db = await DatabaseHelper.db();
-    final data = {'id': id, 'name': name, 'dob': dob, 'email': email, 'mobile': mobile.toString()};
-    db.update('table', data, where: 'Id = ?', whereArgs: [id],
-    );
-    return data;
+    final data = {'id': id, 'name': name, 'dob': dob, 'email': email, 'mobile': mobile};
+    db.update('Student', data, where: 'id = ?', whereArgs: [id]);
   }
 
   static Future<void> deleteItem(int id) async{
     final db = await DatabaseHelper.db();
-    try{
-      await db.delete('Items', where: 'id = ?', whereArgs: [id]);
-    }catch(err) {
-      debugPrint('Student is not available: $err');
-    }
+    db.delete('Student', where: 'id = ?', whereArgs: [id]);
   }
 }

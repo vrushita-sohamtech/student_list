@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_list/database.dart';
-import 'package:student_list/studentDetails.dart';
-import 'package:student_list/studentsList.dart';
+import 'Student_info.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,23 +34,7 @@ class _studentListState extends State<studentList> {
         title: const Text('Student Details'),
         centerTitle: true,
       ),
-      body: Container(
-        width: 400,
-        height: 100,
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        onPressed: () {
-          Navigator.push(context,
-            MaterialPageRoute(builder: (context)=> AddStudents())
-          );
-        },
-        child: Icon(Icons.add),
-      ),
+      body: HomePage(),
     );
   }
 }
